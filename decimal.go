@@ -161,7 +161,7 @@ func (NumericCodec) DecodeValue(tm *pgtype.Map, oid uint32, format int16, src []
 	return target, nil
 }
 
-// Register registers the shopspring/decimal integration with a pgtype.ConnInfo.
+// Register registers the ericlagergren/decimal integration with a pgtype.ConnInfo.
 func Register(m *pgtype.Map) {
 	m.TryWrapEncodePlanFuncs = append([]pgtype.TryWrapEncodePlanFunc{TryWrapNumericEncodePlan}, m.TryWrapEncodePlanFuncs...)
 	m.TryWrapScanPlanFuncs = append([]pgtype.TryWrapScanPlanFunc{TryWrapNumericScanPlan}, m.TryWrapScanPlanFuncs...)
