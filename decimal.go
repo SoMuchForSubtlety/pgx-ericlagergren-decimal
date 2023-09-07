@@ -16,7 +16,7 @@ type Decimal postgres.Decimal
 
 func (d *Decimal) ScanNumeric(v pgtype.Numeric) error {
 	if !v.Valid {
-		*d = Decimal(postgres.Decimal{})
+		*d = Decimal{}
 		return nil
 	}
 
@@ -28,8 +28,16 @@ func (d *Decimal) ScanNumeric(v pgtype.Numeric) error {
 		return fmt.Errorf("cannot scan %v into *postgres.Decimal", v.InfinityModifier)
 	}
 
+	var bd *decimal.Big
+	if v.Int.IsInt64() {
+		// fast path avoids one allocation
+		bd = decimal.New(v.Int.Int64(), -int(v.Exp))
+	} else {
+		bd = new(decimal.Big).SetBigMantScale(v.Int, -int(v.Exp))
+	}
+
 	*d = Decimal{
-		V:    new(decimal.Big).SetBigMantScale(v.Int, -int(v.Exp)),
+		V:    bd,
 		Zero: len(v.Int.Bits()) == 0,
 	}
 
