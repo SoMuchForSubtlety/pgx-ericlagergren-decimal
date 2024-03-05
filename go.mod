@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/ericlagergren/decimal v0.0.0-20221120152707-495c53812d05
-	github.com/jackc/pgx/v5 v5.5.3
+	github.com/jackc/pgx/v5 v5.5.4
 	github.com/stretchr/testify v1.8.4
 )
 
